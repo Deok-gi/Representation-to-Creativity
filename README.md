@@ -1,8 +1,6 @@
 # Representation-to-Creativity
 
-📑 [**Representation-to-Creativity (R2C): Automated Holistic Scoring Model for Essay Creativity**] (https://aclanthology.org/2025.findings-naacl.292.pdf)
-
-<br>
+📑 [**Representation-to-Creativity (R2C): Automated Holistic Scoring Model for Essay Creativity**](https://aclanthology.org/2025.findings-naacl.292.pdf)
 
 ## Introduction
 
