@@ -27,4 +27,4 @@ python3 essay-to-vector.py
 ```
 - The D1, D2, and D3 datasets presented in the paper are provided in the "datasets" folder.
 - The model used in the code is as follows: https://huggingface.co/Deok-gi/longformer-bert-base-4096 (Recommend downloading the model locally.)
-- Running the code will save the essay vectors as .pt files.
+- When you run the code, the essay vectors are transformed into 2D vectors through PCA and saved as a .pt file.
