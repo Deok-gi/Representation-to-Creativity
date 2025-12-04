@@ -3,6 +3,7 @@ from tqdm import tqdm
 import torch
 from transformers.modeling_longformer import LongformerSelfAttention
 import pandas as pd
+from sklearn.decomposition import PCA
 
 class BertLongSelfAttention(LongformerSelfAttention):
     """
@@ -43,7 +44,7 @@ model.eval()  # Set to evaluation mode (disables dropout, etc.)
 tokenizer = BertTokenizerFast.from_pretrained('../longformer-bert-base-4096')
 
 # Load essay data
-essay_df = pd.read_csv('../datasets/D1.csv')
+essay_df = pd.read_csv('../datasets/D3.csv', encoding='utf-8')
 docs = essay_df['essay'].tolist()
 
 outputs = []
@@ -77,5 +78,10 @@ for doc in tqdm(docs, desc="Processing essays"):
 # Stack all outputs into a single tensor
 final_output = torch.stack(outputs, dim=0)
 
-# Save embeddings to file
-torch.save(final_output, '../pt/D1_e2v.pt')
+final_output  = final_output.view(final_output.shape[0], -1)
+
+pca = PCA(n_components=2)
+
+projected_data = pca.fit_transform(final_output.detach().numpy())
+
+torch.save(projected_data, '../pt/D3_e2v_2d.pt')
