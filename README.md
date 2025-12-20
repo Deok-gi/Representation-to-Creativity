@@ -29,7 +29,11 @@ python3 essay-to-vector.py
 - The model used in the code is as follows: https://huggingface.co/Deok-gi/longformer-bert-base-4096 (Recommend downloading the model locally.)
 - When you run the code, the essay vectors are transformed into 2D vectors through PCA and saved as a .pt file.
 
-### 2. Clustering of Essay Vectors (aic-bic_view.ipynb, clustering-essay-vectors_view.ipynb)
+### 2. Clustering of Essay Vectors
+```bash
+aic-bic_view.ipynb
+clustering-essay-vectors_view.ipynb
+```
 - "aic-bic_view.ipynb" can be used to estimate the optimal number of clusters.
 - "clustering-essay-vectors_view.ipynb" can be used to visualize the EM clustering results. For each cluster, the number of e2v instances, mean creativity score, and variance are displayed.
 - We consider the cluster with the largest number of e2v elements to be the conventional cluster.
