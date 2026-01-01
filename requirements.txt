@@ -4,3 +4,4 @@ torch==1.13.1
 transformers==3.0.2
 matplotlib==3.5.3
 ipykernel==5.5.5
+konlpy==0.6.0
