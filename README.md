@@ -37,3 +37,12 @@ clustering-essay-vectors_view.ipynb
 - "aic-bic_view.ipynb" can be used to estimate the optimal number of clusters.
 - "clustering-essay-vectors_view.ipynb" can be used to visualize the EM clustering results. For each cluster, the number of e2v instances, mean creativity score, and variance are displayed.
 - We consider the cluster with the largest number of e2v elements to be the conventional cluster.
+
+### 3. Training Transformer Using Essay Data
+```bash
+python3 transformer-train.py
+```
+- Tokenizes Korean text using Okt morphological analyzer
+- Builds a vocabulary dictionary from all tokens
+- Trains for 10 epochs using CrossEntropyLoss and Adam optimizer
+- Saves trained weights to `transformer_weights.pth`
