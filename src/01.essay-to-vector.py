@@ -84,4 +84,4 @@ pca = PCA(n_components=2)
 
 projected_data = pca.fit_transform(final_output.detach().numpy())
 
-torch.save(projected_data, '../pt/D3_e2v_2d.pt')
+torch.save(projected_data, '../cache/D3_e2v_2d.pt')

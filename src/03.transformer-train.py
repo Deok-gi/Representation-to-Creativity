@@ -130,6 +130,9 @@ f.close()
 print("Preprocessing data...")
 tokenized_data = [preprocess(sentence) for sentence in tqdm(docs)]
 
+with open('../cache/tokenized_data.pickle', 'wb') as file:
+    pickle.dump(tokenized_data, file)
+    
 # Build vocabulary
 print("Building vocabulary...")
 word2index = {}
@@ -210,5 +213,5 @@ for epoch in range(num_epochs):
 
 # Save model weights
 print("Saving model weights...")
-torch.save(model.state_dict(), '../pth/transformer_weights.pth')
+torch.save(model.state_dict(), '../cache/transformer_weights.pth')
 print("Training completed!")
