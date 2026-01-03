@@ -51,3 +51,4 @@ python3 03.transformer-train.py
 ```bash
 python3 04.creativity-aware-distance_calc.py
 ```
+- Consistent with the paper.

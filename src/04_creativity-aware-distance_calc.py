@@ -152,15 +152,15 @@ def calculate_cluster_probs(model, sequences, top_vocab):
     probs = (output / len(sequences)).tolist()
     return [probs[i] for i in top_vocab]
 
-def calculate_cross_entropy(plain_probs, candi_probs, plain_var, candi_var):
+def calculate_cross_entropy(conventional_probs, candidate_probs, conventional_var, candidate_var):
     """Calculate cross-entropy between two probability distributions"""
-    candi_weight = candi_var / (candi_var + plain_var)
-    plain_weight = plain_var / (candi_var + plain_var)
+    candidate_weight = candidate_var / (candidate_var + conventional_var)
+    conventional_weight = conventional_var / (candidate_var + conventional_var)
     
     cross_entropy = 0
-    for p1, p2 in zip(candi_probs, plain_probs):
-        weighted_p1 = p1 * candi_weight
-        weighted_p2 = p2 * plain_weight
+    for p1, p2 in zip(candidate_probs, conventional_probs):
+        weighted_p1 = p1 * candidate_weight
+        weighted_p2 = p2 * conventional_weight
         cross_entropy -= weighted_p1 * np.log(weighted_p2 + 1e-7)
     
     return cross_entropy
@@ -169,11 +169,11 @@ def calculate_cross_entropy(plain_probs, candi_probs, plain_var, candi_var):
 # ====================================================================
 def main():
     # Load data
-    docs, scores = load_data('../datasets/D3.csv')
+    docs, scores = load_data('../datasets/D1.csv')
     print(f'Overall average: {sum(scores) / len(scores):.2f}')
     
     # Load pre-computed embeddings
-    data = torch.load('../cache/D3_e2v_2d.pt')
+    data = torch.load('../cache/D1_e2v_2d.pt')
     
     # Clustering
     K = 5
@@ -192,9 +192,9 @@ def main():
     cluster_variances = [np.trace(cov) for cov in model.covariances_]
     print(f'\nVariances: {cluster_variances}\n')
     
-    # Find most common (plain) cluster
+    # Find most common (conventional) cluster
     most_common_cluster = Counter(labels).most_common(1)[0][0]
-    print(f'Most plain cluster: Cluster {most_common_cluster}\n')
+    print(f'Conventional cluster: Cluster {most_common_cluster}\n')
     
     # Visualize
     visualize_clusters(data, labels, model, counts_dict)
@@ -215,12 +215,12 @@ def main():
     TF_model.load_state_dict(torch.load('../cache/transformer_weights.pth'))
     TF_model.eval()
     
-    # Calculate plain cluster probabilities
-    plain_idx = np.where(labels == most_common_cluster)[0]
-    plain_sequences = [torch.tensor([word2index[word] for word in tokenized_data[i]]) 
-                       for i in plain_idx]
-    plain_padded = pad_sequence(plain_sequences, batch_first=True)
-    plain_probs = calculate_cluster_probs(TF_model, plain_padded, top_vocab)
+    # Calculate conventional cluster probabilities
+    conventional_idx = np.where(labels == most_common_cluster)[0]
+    conventional_sequences = [torch.tensor([word2index[word] for word in tokenized_data[i]]) 
+                       for i in conventional_idx]
+    conventional_padded = pad_sequence(conventional_sequences, batch_first=True)
+    conventional_probs = calculate_cluster_probs(TF_model, conventional_padded, top_vocab)
     
     # Calculate cross-entropy for each cluster
     cross_entropies = []
@@ -229,24 +229,24 @@ def main():
             cross_entropies.append(0)
             continue
         
-        candi_idx = np.where(labels == i)[0]
-        candi_sequences = [torch.tensor([word2index[word] for word in tokenized_data[j]]) 
-                          for j in candi_idx]
-        candi_padded = pad_sequence(candi_sequences, batch_first=True)
-        candi_probs = calculate_cluster_probs(TF_model, candi_padded, top_vocab)
+        candidate_idx = np.where(labels == i)[0]
+        candidate_sequences = [torch.tensor([word2index[word] for word in tokenized_data[j]]) 
+                          for j in candidate_idx]
+        candidate_padded = pad_sequence(candidate_sequences, batch_first=True)
+        candidate_probs = calculate_cluster_probs(TF_model, candidate_padded, top_vocab)
         
         cross_entropy = calculate_cross_entropy(
-            plain_probs, candi_probs, 
+            conventional_probs, candidate_probs, 
             cluster_variances[most_common_cluster], 
             cluster_variances[i]
         )
         
-        print(f'Cross-Entropy between plain cluster {most_common_cluster} and candidate cluster {i}: {cross_entropy:.4f}')
+        print(f'Cross-Entropy between Conventional cluster {most_common_cluster} and Candidate cluster {i}: {cross_entropy:.4f}')
         cross_entropies.append(cross_entropy)
     
     # Find most creative cluster
     creative_cluster = cross_entropies.index(max(cross_entropies))
-    print(f"\nMost creative cluster: Cluster {creative_cluster}")
+    print(f"\nCreative cluster: Cluster {creative_cluster}")
 
 if __name__ == "__main__":
     main()

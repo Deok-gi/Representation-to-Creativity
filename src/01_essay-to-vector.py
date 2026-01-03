@@ -44,7 +44,7 @@ model.eval()  # Set to evaluation mode (disables dropout, etc.)
 tokenizer = BertTokenizerFast.from_pretrained('../longformer-bert-base-4096')
 
 # Load essay data
-essay_df = pd.read_csv('../datasets/D3.csv', encoding='utf-8')
+essay_df = pd.read_csv('../datasets/D1.csv', encoding='utf-8')
 docs = essay_df['essay'].tolist()
 
 outputs = []
@@ -84,4 +84,4 @@ pca = PCA(n_components=2)
 
 projected_data = pca.fit_transform(final_output.detach().numpy())
 
-torch.save(projected_data, '../cache/D3_e2v_2d.pt')
+torch.save(projected_data, '../cache/D1_e2v_2d.pt')
