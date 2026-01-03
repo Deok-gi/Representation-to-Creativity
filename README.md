@@ -12,6 +12,7 @@ we propose a novel **self-supervised learning model** that recognizes cluster pa
 ```bash
 git https://github.com/Deok-gi/Representation-to-Creativity.git
 cd Representation-to-Creativity
+mkdir cache
 
 conda create -n r2c python=3.7.16
 conda activate r2c
