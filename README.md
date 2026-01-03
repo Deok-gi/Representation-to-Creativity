@@ -23,7 +23,7 @@ pip install -r requirements.txt
 ### 1. Essay-to-Vector (E2V)
 ```bash
 cd src
-python3 01. essay-to-vector.py
+python3 01.essay-to-vector.py
 ```
 - The D1, D2, and D3 datasets presented in the paper are provided in the "datasets" folder.
 - The model used in the code is as follows: https://huggingface.co/Deok-gi/longformer-bert-base-4096 (Recommend downloading the model locally.)
@@ -31,8 +31,8 @@ python3 01. essay-to-vector.py
 
 ### 2. Clustering of Essay Vectors
 ```bash
-02-1. aic-bic_view.ipynb
-02-2. clustering-essay-vectors_view.ipynb
+02-1.aic-bic_view.ipynb
+02-2.clustering-essay-vectors_view.ipynb
 ```
 - "aic-bic_view.ipynb" can be used to estimate the optimal number of clusters.
 - "clustering-essay-vectors_view.ipynb" can be used to visualize the EM clustering results. For each cluster, the number of e2v instances, mean creativity score, and variance are displayed.
@@ -40,7 +40,7 @@ python3 01. essay-to-vector.py
 
 ### 3. Training Transformer Using Essay Data
 ```bash
-python3 03. transformer-train.py
+python3 03.transformer-train.py
 ```
 - Tokenizes Korean text using Okt morphological analyzer
 - Builds a vocabulary dictionary from all tokens
@@ -49,5 +49,5 @@ python3 03. transformer-train.py
 
 ### 4. Automatic Labeling of Conventional, Creative, and Non-creative Clusters
 ```bash
-python3 04. creativity-aware-distance_calc.py
+python3 04.creativity-aware-distance_calc.py
 ```
